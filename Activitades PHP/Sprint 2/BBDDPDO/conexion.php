@@ -1,10 +1,9 @@
 <?php
-function conectarBD()
-{
+function conectarBD() {
     $host = "localhost";
-    $dbname = "";
-    $usuario = "";
-    $password = "";
+    $dbname = "clientes_php";
+    $usuario = "root";
+    $password = "1234"; 
 
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $usuario, $password);
@@ -15,8 +14,7 @@ function conectarBD()
     }
 }
 
-function desconectarBD(&$pdo)
-{
+function desconectarBD(&$pdo) {
     $pdo = null;
 }
 ?>

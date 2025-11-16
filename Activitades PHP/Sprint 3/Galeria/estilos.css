@@ -1,13 +1,21 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     margin: 20px;
 }
 
+h1 {
+    margin-bottom: 10px;
+}
+
 .mensaje {
-    background: #d9ffd9;
-    border: 1px solid #7ac97a;
+    background-color: #e3ffe3;
+    border: 1px solid #48a348;
     padding: 10px;
-    width: 300px;
+    width: 250px;
+}
+
+.subida {
+    margin-bottom: 20px;
 }
 
 .galeria {
@@ -17,11 +25,27 @@ body {
 }
 
 .item {
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
+    width: 180px;
 }
 
-button {
-    margin-top: 5px;
+.item img {
+    width: 150px;
+    height: auto;
+    margin-bottom: 10px;
+    border: 1px solid #aaa;
+}
+
+.borrar {
+    background-color: #ff6666;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.borrar:hover {
+    background-color: #cc5252;
 }

@@ -1,15 +1,12 @@
 <?php
 
-if (!empty($_POST['archivo'])) {
-    $archivo = "uploads/" . $_POST['archivo'];
+$archivo = $_POST["archivo"];
+$ruta = "uploads/" . $archivo;
 
-    if (file_exists($archivo)) {
-        unlink($archivo);
-    }
+if (file_exists($ruta)) {
+    unlink($ruta);
 }
 
-// Volver al index
 header("Location: index.php");
 exit;
-
 ?>

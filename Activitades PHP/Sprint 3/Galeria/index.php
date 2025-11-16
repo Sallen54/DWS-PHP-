@@ -3,29 +3,27 @@ include "funciones.php";
 
 $mensaje = "";
 
-// --- Manejo de SUBIDA ---
-if (!empty($_FILES['imagen']['name'])) {
+if (!empty($_FILES["imagen"]["name"])) {
 
-    if (esExtensionValida($_FILES['imagen']['name'])) {
+    $nombre = $_FILES["imagen"]["name"];
+    $tmp = $_FILES["imagen"]["tmp_name"];
 
-        if ($_FILES['imagen']['size'] <= 2 * 1024 * 1024) { // 2MB
-            $destino = "uploads/" . basename($_FILES['imagen']['name']);
+    if (esImagen($nombre)) {
 
-            if (move_uploaded_file($_FILES['imagen']['tmp_name'], $destino)) {
-                $mensaje = "Imagen subida correctamente.";
-            } else {
-                $mensaje = "Error al subir la imagen.";
-            }
+        $destino = "uploads/" . $nombre;
+
+        if (move_uploaded_file($tmp, $destino)) {
+            $mensaje = "Imagen subida.";
         } else {
-            $mensaje = "La imagen es demasiado grande (máx 2MB).";
+            $mensaje = "Error al subir.";
         }
 
     } else {
-        $mensaje = "El archivo no es una imagen válida.";
+        $mensaje = "Archivo no permitido.";
     }
 }
 
-$imagenes = obtenerImagenes("uploads");
+$lista = listarImagenes("uploads");
 ?>
 
 <!DOCTYPE html>
@@ -45,33 +43,38 @@ $imagenes = obtenerImagenes("uploads");
         <p class="mensaje"><?php echo $mensaje; ?></p>
     <?php endif; ?>
 
-    <h2>Subir nueva imagen</h2>
+    <h2>Subir imagen</h2>
 
-    <form action="index.php" method="POST" enctype="multipart/form-data">
+    <form method="POST" action="" enctype="multipart/form-data" class="subida">
         <input type="file" name="imagen" required>
         <button type="submit">Subir</button>
     </form>
 
     <hr>
 
-    <h2>Imágenes en la galería</h2>
+    <h2>Imágenes</h2>
 
     <div class="galeria">
-        <?php foreach ($imagenes as $archivo => $fecha): ?>
-            <div class="item">
-                <img src="uploads/<?php echo $archivo; ?>" width="150">
-                <p><?php echo $archivo; ?></p>
 
-                <form action="borrar.php" method="POST">
-                    <input type="hidden" name="archivo" value="<?php echo $archivo; ?>">
-                    <button type="submit">Borrar</button>
-                </form>
-            </div>
-        <?php endforeach; ?>
+        <?php
+        foreach ($lista as $img) {
 
-        <?php if (empty($imagenes)): ?>
-            <p>No hay imágenes todavía.</p>
-        <?php endif; ?>
+            if ($img != "." && $img != ".." && esImagen($img)) {
+
+                echo "<div class='item'>";
+                echo "<img src='uploads/$img'>";
+                echo "<p>$img</p>";
+
+                echo "<form action='borrar.php' method='POST'>
+                <input type='hidden' name='archivo' value='$img'>
+                <button class='borrar'>Borrar</button>
+              </form>";
+
+                echo "</div>";
+            }
+        }
+        ?>
+
     </div>
 
 </body>

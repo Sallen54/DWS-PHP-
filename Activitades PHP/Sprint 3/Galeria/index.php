@@ -1,46 +1,79 @@
 <?php
-include("funciones.php");
-$directorio_destino = "uploads/";
-if (!is_dir($directorio_destino)) {
-    mkdir($directorio_destino, 0755, true);
+include "funciones.php";
+
+$mensaje = "";
+
+// --- Manejo de SUBIDA ---
+if (!empty($_FILES['imagen']['name'])) {
+
+    if (esExtensionValida($_FILES['imagen']['name'])) {
+
+        if ($_FILES['imagen']['size'] <= 2 * 1024 * 1024) { // 2MB
+            $destino = "uploads/" . basename($_FILES['imagen']['name']);
+
+            if (move_uploaded_file($_FILES['imagen']['tmp_name'], $destino)) {
+                $mensaje = "Imagen subida correctamente.";
+            } else {
+                $mensaje = "Error al subir la imagen.";
+            }
+        } else {
+            $mensaje = "La imagen es demasiado grande (máx 2MB).";
+        }
+
+    } else {
+        $mensaje = "El archivo no es una imagen válida.";
+    }
 }
+
+$imagenes = obtenerImagenes("uploads");
 ?>
+
 <!DOCTYPE html>
-<html lang="es">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galeria</title>
+    <title>Galería Simple</title>
+    <link rel="stylesheet" href="estilos.css">
 </head>
 
 <body>
 
+    <h1>Galería Simple</h1>
 
-    <form action="subirarchivo.php" name="subida-imagenes" type="POST" enctype="multipart/formdata">
-        <input type="file" name="imagen1" />
-        <input type="submit" name="subir-imagen" value="Enviar imagen" />
+    <?php if ($mensaje != ""): ?>
+        <p class="mensaje"><?php echo $mensaje; ?></p>
+    <?php endif; ?>
+
+    <h2>Subir nueva imagen</h2>
+
+    <form action="index.php" method="POST" enctype="multipart/form-data">
+        <input type="file" name="imagen" required>
+        <button type="submit">Subir</button>
     </form>
 
+    <hr>
+
+    <h2>Imágenes en la galería</h2>
+
+    <div class="galeria">
+        <?php foreach ($imagenes as $archivo => $fecha): ?>
+            <div class="item">
+                <img src="uploads/<?php echo $archivo; ?>" width="150">
+                <p><?php echo $archivo; ?></p>
+
+                <form action="borrar.php" method="POST">
+                    <input type="hidden" name="archivo" value="<?php echo $archivo; ?>">
+                    <button type="submit">Borrar</button>
+                </form>
+            </div>
+        <?php endforeach; ?>
+
+        <?php if (empty($imagenes)): ?>
+            <p>No hay imágenes todavía.</p>
+        <?php endif; ?>
+    </div>
 
 </body>
 
 </html>
-<?php
-if (verificarArchivo()) {
-
-
-
-}
-// 3. Construir la ruta completa del archivo en el destino
-// basename() ayuda a evitar ataques de directorios
-$ruta_destino = $directorio_destino . basename($_FILES['imagen']['name']);
-
-// 4. Mover el archivo desde la ubicación temporal a la ruta de destino
-if (move_uploaded_file($_FILES['imagen']['tmp_name'], $ruta_destino)) {
-    echo "El archivo " . htmlspecialchars(basename($_FILES['imagen']['name'])) . " ha sido subido exitosamente.";
-} else {
-    echo "Hubo un error al subir el archivo.";
-}
-
-?>

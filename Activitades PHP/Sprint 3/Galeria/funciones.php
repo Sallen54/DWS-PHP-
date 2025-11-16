@@ -1,21 +1,27 @@
 <?php
 
-function verificarArchivo()
-{
-    // 1. Verificar que se envió un archivo y que no hubo errores
-    if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
-        // 2. Definir el directorio de destino
-        
+function obtenerImagenes($carpeta) {
+    $archivos = scandir($carpeta);
+    $imagenes = array();
 
-        // Asegúrate de que la carpeta "uploads" exista y tenga permisos de escritura
-        
-        
-    } else {
-        // Manejar errores (por ejemplo, el archivo está vacío o hay un error en la carga)
-        //(echo "Error al subir el archivo. Código de error: " . $_FILES['imagen']['error'];
-        return false;
+    foreach ($archivos as $archivo) {
+        if ($archivo != "." && $archivo != "..") {
+            $ruta = $carpeta . "/" . $archivo;
+
+            $ext = strtolower(pathinfo($ruta, PATHINFO_EXTENSION));
+            if ($ext == "jpg" || $ext == "jpeg" || $ext == "png" || $ext == "gif") {
+                $imagenes[$archivo] = filemtime($ruta);
+            }
+        }
     }
 
-    return true;
+    arsort($imagenes);
+    return $imagenes;
 }
+
+function esExtensionValida($nombre) {
+    $ext = strtolower(pathinfo($nombre, PATHINFO_EXTENSION));
+    return ($ext == "jpg" || $ext == "jpeg" || $ext == "png" || $ext == "gif");
+}
+
 ?>

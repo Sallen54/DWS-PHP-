@@ -27,20 +27,23 @@ if (isset($_GET['confirmar']) && $_GET['confirmar'] === 'si') {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Eliminar Cliente</title>
 </head>
+
 <body>
     <h1>Eliminar Cliente</h1>
-    
+
     <p>¿Está seguro de que desea eliminar este cliente?</p>
     <p>DNI: <?php echo htmlspecialchars($cliente->getDni()); ?></p>
     <p>Nombre: <?php echo htmlspecialchars($cliente->getNombre()); ?></p>
-    
+
     <div>
         <a href="borrarcliente.php?dni=<?php echo urlencode($dni); ?>&confirmar=si">Sí, eliminar</a>
         <a href="index.php">Cancelar</a>
     </div>
 </body>
+
 </html>

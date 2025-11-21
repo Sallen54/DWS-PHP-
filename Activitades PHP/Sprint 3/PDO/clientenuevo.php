@@ -4,23 +4,28 @@ require_once 'Cliente.class.php';
 
 $errores = [];
 $datos = [
-    'dni' => '', 'nombre' => '', 'direccion' => '', 
-    'localidad' => '', 'provincia' => '', 'telefono' => '', 'email' => ''
+    'dni' => '',
+    'nombre' => '',
+    'direccion' => '',
+    'localidad' => '',
+    'provincia' => '',
+    'telefono' => '',
+    'email' => ''
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $datos = array_map('trim', $_POST);
-    
+
     if (empty($datos['dni'])) {
         $errores[] = 'El DNI es obligatorio';
     } elseif (Cliente::existeDni($datos['dni'])) {
         $errores[] = 'El DNI ya existe';
     }
-    
+
     if (empty($datos['nombre'])) {
         $errores[] = 'El nombre es obligatorio';
     }
-    
+
     if (empty($datos['email'])) {
         $errores[] = 'El email es obligatorio';
     }
@@ -35,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $datos['telefono'],
             $datos['email']
         );
-        
+
         if ($cliente->guardar()) {
             header('Location: index.php?mensaje=Cliente creado correctamente');
             exit;
@@ -48,13 +53,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Nuevo Cliente</title>
 </head>
+
 <body>
     <h1>Nuevo Cliente</h1>
-    
+
     <?php foreach ($errores as $error): ?>
         <p><?php echo htmlspecialchars($error); ?></p>
     <?php endforeach; ?>
@@ -101,4 +108,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </form>
 </body>
+
 </html>

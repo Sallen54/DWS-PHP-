@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($datos['nombre'])) {
         $errores[] = 'El nombre es obligatorio';
     }
-    
+
     if (empty($datos['email'])) {
         $errores[] = 'El email es obligatorio';
     }
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $datos['telefono'],
             $datos['email']
         );
-        
+
         if ($cliente->actualizar()) {
             header('Location: index.php?mensaje=Cliente actualizado correctamente');
             exit;
@@ -60,13 +60,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Editar Cliente</title>
 </head>
+
 <body>
     <h1>Editar Cliente</h1>
-    
+
     <?php foreach ($errores as $error): ?>
         <p><?php echo htmlspecialchars($error); ?></p>
     <?php endforeach; ?>
@@ -113,4 +115,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </form>
 </body>
+
 </html>

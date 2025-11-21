@@ -3,11 +3,11 @@ class Conexion
 {
     static function conectarBD()
     {
-        $host = "10.2.218.1";
-        $dbname = "Alejandro";
-        $user = "tendaFake";
-        $password = "Lliurex_01";
-        
+        $host = "localhost";
+        $dbname = "clientes_php";
+        $user = "root";
+        $password = "1234";
+
         try {
             $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

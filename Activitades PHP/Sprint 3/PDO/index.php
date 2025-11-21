@@ -8,19 +8,21 @@ $mensaje = isset($_GET['mensaje']) ? $_GET['mensaje'] : '';
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Gestión de Clientes</title>
 </head>
+
 <body>
     <h1>Gestión de Clientes</h1>
-    
+
     <?php if ($mensaje): ?>
         <p><?php echo htmlspecialchars($mensaje); ?></p>
     <?php endif; ?>
 
     <a href="clientenuevo.php">Nuevo Cliente</a>
-    
+
     <table border="1">
         <thead>
             <tr>
@@ -41,22 +43,23 @@ $mensaje = isset($_GET['mensaje']) ? $_GET['mensaje'] : '';
                 </tr>
             <?php else: ?>
                 <?php foreach ($clientes as $cliente): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($cliente->getDni()); ?></td>
-                    <td><?php echo htmlspecialchars($cliente->getNombre()); ?></td>
-                    <td><?php echo htmlspecialchars($cliente->getDireccion()); ?></td>
-                    <td><?php echo htmlspecialchars($cliente->getLocalidad()); ?></td>
-                    <td><?php echo htmlspecialchars($cliente->getProvincia()); ?></td>
-                    <td><?php echo htmlspecialchars($cliente->getTelefono()); ?></td>
-                    <td><?php echo htmlspecialchars($cliente->getEmail()); ?></td>
-                    <td>
-                        <a href="editarcliente.php?dni=<?php echo urlencode($cliente->getDni()); ?>">Editar</a>
-                        <a href="borrarcliente.php?dni=<?php echo urlencode($cliente->getDni()); ?>">Eliminar</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td><?php echo htmlspecialchars($cliente->getDni()); ?></td>
+                        <td><?php echo htmlspecialchars($cliente->getNombre()); ?></td>
+                        <td><?php echo htmlspecialchars($cliente->getDireccion()); ?></td>
+                        <td><?php echo htmlspecialchars($cliente->getLocalidad()); ?></td>
+                        <td><?php echo htmlspecialchars($cliente->getProvincia()); ?></td>
+                        <td><?php echo htmlspecialchars($cliente->getTelefono()); ?></td>
+                        <td><?php echo htmlspecialchars($cliente->getEmail()); ?></td>
+                        <td>
+                            <a href="editarcliente.php?dni=<?php echo urlencode($cliente->getDni()); ?>">Editar</a>
+                            <a href="borrarcliente.php?dni=<?php echo urlencode($cliente->getDni()); ?>">Eliminar</a>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
         </tbody>
     </table>
 </body>
+
 </html>

@@ -20,23 +20,45 @@ class Cliente
         $this->email = $email;
     }
 
-    public function getDni() { return $this->dni; }
-    public function getNombre() { return $this->nombre; }
-    public function getDireccion() { return $this->direccion; }
-    public function getLocalidad() { return $this->localidad; }
-    public function getProvincia() { return $this->provincia; }
-    public function getTelefono() { return $this->telefono; }
-    public function getEmail() { return $this->email; }
+    public function getDni()
+    {
+        return $this->dni;
+    }
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+    public function getDireccion()
+    {
+        return $this->direccion;
+    }
+    public function getLocalidad()
+    {
+        return $this->localidad;
+    }
+    public function getProvincia()
+    {
+        return $this->provincia;
+    }
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
     public static function obtenerTodos()
     {
         $pdo = Conexion::conectarBD();
-        if ($pdo === null) return [];
+        if ($pdo === null)
+            return [];
 
         try {
             $stmt = $pdo->query("SELECT * FROM clientes ORDER BY nombre");
             $clientes = [];
-            
+
             while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $clientes[] = new Cliente(
                     $fila['dni'],
@@ -58,13 +80,14 @@ class Cliente
     public static function obtenerPorDni($dni)
     {
         $pdo = Conexion::conectarBD();
-        if ($pdo === null) return null;
+        if ($pdo === null)
+            return null;
 
         try {
             $stmt = $pdo->prepare("SELECT * FROM clientes WHERE dni = ?");
             $stmt->execute([$dni]);
             $fila = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if ($fila) {
                 return new Cliente(
                     $fila['dni'],
@@ -86,7 +109,8 @@ class Cliente
     public function guardar()
     {
         $pdo = Conexion::conectarBD();
-        if ($pdo === null) return false;
+        if ($pdo === null)
+            return false;
 
         try {
             $stmt = $pdo->prepare("INSERT INTO clientes (dni, nombre, direccion, localidad, provincia, telefono, email) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -108,7 +132,8 @@ class Cliente
     public function actualizar()
     {
         $pdo = Conexion::conectarBD();
-        if ($pdo === null) return false;
+        if ($pdo === null)
+            return false;
 
         try {
             $stmt = $pdo->prepare("UPDATE clientes SET nombre = ?, direccion = ?, localidad = ?, provincia = ?, telefono = ?, email = ? WHERE dni = ?");
@@ -130,7 +155,8 @@ class Cliente
     public static function eliminar($dni)
     {
         $pdo = Conexion::conectarBD();
-        if ($pdo === null) return false;
+        if ($pdo === null)
+            return false;
 
         try {
             $stmt = $pdo->prepare("DELETE FROM clientes WHERE dni = ?");
@@ -144,7 +170,8 @@ class Cliente
     public static function existeDni($dni)
     {
         $pdo = Conexion::conectarBD();
-        if ($pdo === null) return false;
+        if ($pdo === null)
+            return false;
 
         try {
             $stmt = $pdo->prepare("SELECT COUNT(*) FROM clientes WHERE dni = ?");
